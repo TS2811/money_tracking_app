@@ -40,7 +40,7 @@ class _SplashScreenUiState extends State<SplashScreenUi> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             Text(
-              'Maney Tracking',
+              'Money Tracking',
               style: GoogleFonts.kanit(
                 textStyle: TextStyle(
                   fontWeight: FontWeight.bold,
