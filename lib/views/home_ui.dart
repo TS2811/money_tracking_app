@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_final_fields
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable, prefer_const_literals_to_create_immutables, prefer_final_fields, avoid_print
 
 import 'dart:convert';
 import 'dart:typed_data';
@@ -48,7 +48,9 @@ class _HomeUiState extends State<HomeUi> {
       RecordUi(
         user: widget.user,
       ),
-      AddExpenseScreenUi(),
+      AddExpenseScreenUi(
+        user: widget.user,
+      ),
     ];
   }
 
@@ -191,22 +193,53 @@ class _HomeUiState extends State<HomeUi> {
                       ? CircularProgressIndicator()
                       : Column(
                           children: [
-                            Text(
-                              "ยอดเงินคงเหลือ",
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.02,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              _totalBalance.toStringAsFixed(2),
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height * 0.03,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                            Stack(
+                              children: [
+                                Center(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "ยอดเงินคงเหลือ",
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.02,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      Text(
+                                        _totalBalance.toStringAsFixed(2),
+                                        style: TextStyle(
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.03,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Align(
+                                  alignment: AlignmentDirectional.topEnd,
+                                  child: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        fetchMoneyList();
+                                      });
+                                    },
+                                    icon: Icon(
+                                      Icons.rotate_left_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    iconSize:
+                                        MediaQuery.of(context).size.height *
+                                            0.03,
+                                  ),
+                                )
+                              ],
                             ),
                             SizedBox(
                               height:
@@ -300,9 +333,10 @@ class _HomeUiState extends State<HomeUi> {
         cornerRadius: 16,
         style: TabStyle.fixed,
         initialActiveIndex: _currentIndex,
-        onTap: (value) {
+        onTap: (value) async {
           setState(() {
             _currentIndex = value;
+            fetchMoneyList();
           });
         },
       ),

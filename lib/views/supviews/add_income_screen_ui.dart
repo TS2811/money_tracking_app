@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_interpolation_to_compose_strings, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, prefer_interpolation_to_compose_strings, must_be_immutable, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -247,14 +247,25 @@ class _AddIncomeScreenUiState extends State<AddIncomeScreenUi> {
                         userId: widget.user!.userId,
                       );
                       CallApi.AddMoneyApi(money).then(
-                        (value) {
-                          if (value.isNotEmpty) {
-                            showDialogMassage(
-                              context,
-                              'แจ้งเตือน',
-                              'บันทึกข้อมูลเรียบร้อยแล้ว',
-                            );
-                          }
+                        (value) => {
+                          if (value[0].message == "1")
+                            {
+                              _moneyDetailController =
+                                  TextEditingController(text: ''),
+                              _moneyInOutController =
+                                  TextEditingController(text: ''),
+                              _moneyDateController =
+                                  TextEditingController(text: ''),
+                              _moneyTimeController =
+                                  TextEditingController(text: ''),
+                              showDialogMassage(context, 'แจ้งเตือน',
+                                  "บันทึกข้อมูลเรียบร้อย"),
+                            }
+                          else
+                            {
+                              showDialogMassage(context, 'แจ้งเตือน',
+                                  "ไม่สามารถบันทึกข้อมูลได้"),
+                            }
                         },
                       );
                     }

@@ -47,6 +47,9 @@ class _RecordUiState extends State<RecordUi> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.1,
+        ),
         width: double.infinity,
         color: Colors.white,
         child: _isLoading
